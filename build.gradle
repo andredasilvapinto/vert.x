@@ -31,7 +31,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.eriwen:gradle-js-plugin:1.1'
+    classpath "com.eriwen:gradle-js-plugin:$gradlejsVersion"
   }
 } 
 
@@ -171,35 +171,9 @@ task createDocs(dependsOn: [subprojects.classes, 'javadocs']) {
   description = 'Build all of the various docs for the project'
 }
 
-task distZip(type: Zip, dependsOn : ['assemble', 'minifyClient', 'createDocs']) {
+task dist(dependsOn: [':vertx-package:buildTar', ':vertx-package:buildZip', ':vertx-package:buildRpm', ':vertx-package:buildDeb']){
   group = 'vert.x'
-  description 'Create the Zip distribution'
-
-  destinationDir file('build/distributions')
-  baseName = rootProject.name
-  version = rootProject.version
-  from 'build'
-  include "$rootProject.name-$version/**"
-}
-
-task distTar(type: Tar, dependsOn: ['assemble', 'minifyClient', 'createDocs']) {
-  group = 'vert.x'
-  description 'Create the GZIP distribution'
-
-  compression = org.gradle.api.tasks.bundling.Compression.GZIP
-  destinationDir file('build/distributions')
-  inputs.files files("build/${rootProject.name}-$version")
-  outputs.dir destinationDir
-  baseName = rootProject.name
-  version = rootProject.version
-  extension = 'tar.gz'
-  from 'build'
-  include "${rootProject.name}-$version/**"
-}
-
-task dist(dependsOn: ['distTar', 'distZip']){
-  group = 'vert.x'
-  description 'Create distributions - tar.gz and zip'
+  description 'Create distributions - tar.gz, zip, rpm and deb'
 }
 
 task release(dependsOn: ['clean', 'test', 'dist']) {
