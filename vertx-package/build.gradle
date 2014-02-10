@@ -62,7 +62,7 @@ ospackage {
 
   link("/usr/bin/vertx", "/opt/vertx/bin/vertx")
 
-  baseBuildDir = "build/${rootProject.name}-$rootProject.version"
+  String baseBuildDir = "build/${rootProject.name}-$rootProject.version"
   from (rootProject.file(baseBuildDir)) {
     exclude 'bin'
   }
