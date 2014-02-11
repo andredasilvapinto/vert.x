@@ -53,8 +53,8 @@ ospackage {
   arch = X86_64
   os = LINUX
   type = BINARY
-  user = 'root'
-  permissionGroup = 'root'
+  user = 'vertx'
+  permissionGroup = 'vertx'
 
   requires('java', '7', GREATER | EQUAL)
 
